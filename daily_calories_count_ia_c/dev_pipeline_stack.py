@@ -10,8 +10,8 @@ class DevPipelineStack(Stack):
         super().__init__(scope, construct_id, **kwargs)
 
         source = pipelines.CodePipelineSource.git_hub(
-            "YOUR_GITHUB_USERNAME/YOUR_REPO_NAME",
-            "develop"  # Dev branch
+            "raju7258/daily-calories-count-iac",
+            "dev"  # Dev branch
         )
 
         pipeline = pipelines.CodePipeline(
