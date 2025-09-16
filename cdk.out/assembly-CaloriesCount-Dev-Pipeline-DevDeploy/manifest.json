@@ -18,7 +18,7 @@
         "validateOnSynth": true,
         "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-deploy-role-${AWS::AccountId}-${AWS::Region}",
         "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-cfn-exec-role-${AWS::AccountId}-${AWS::Region}",
-        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/f4f33e1602ab1abeac13bcbdb7b2766b23769a0a0ff22201ba558b17c593c484.json",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/1d1f28f8d7474dc14b351b1aff89bc709326d8609de301dcff3d3a4f0e666906.json",
         "requiresBootstrapStackVersion": 6,
         "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
         "additionalDependencies": [
@@ -40,41 +40,8 @@
             "type": "aws:cdk:analytics:construct",
             "data": {
               "autoDeleteObjects": true,
-              "blockPublicAccess": "*",
               "bucketName": "*",
-              "cors": [
-                {
-                  "allowedMethods": [
-                    "GET",
-                    "HEAD"
-                  ],
-                  "allowedOrigins": "*",
-                  "allowedHeaders": "*",
-                  "maxAge": "*"
-                }
-              ],
-              "publicReadAccess": true,
-              "removalPolicy": "destroy",
-              "websiteErrorDocument": "*",
-              "websiteIndexDocument": "*"
-            }
-          },
-          {
-            "type": "aws:cdk:analytics:method",
-            "data": {
-              "addCorsRule": [
-                {
-                  "allowedMethods": [
-                    "GET",
-                    "HEAD"
-                  ],
-                  "allowedOrigins": "*",
-                  "allowedHeaders": "*",
-                  "maxAge": "*"
-                },
-                "*",
-                "*"
-              ]
+              "removalPolicy": "destroy"
             }
           }
         ],
@@ -132,12 +99,6 @@
           {
             "type": "aws:cdk:logicalId",
             "data": "BucketNamedev"
-          }
-        ],
-        "/CaloriesCount-Dev-Pipeline/DevDeploy/CaloriesCount-Dev/WebsiteURL-dev": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "WebsiteURLdev"
           }
         ],
         "/CaloriesCount-Dev-Pipeline/DevDeploy/CaloriesCount-Dev/CDKMetadata/Default": [

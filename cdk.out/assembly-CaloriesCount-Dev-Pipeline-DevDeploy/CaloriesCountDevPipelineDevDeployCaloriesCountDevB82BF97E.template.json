@@ -4,29 +4,6 @@
    "Type": "AWS::S3::Bucket",
    "Properties": {
     "BucketName": "calories-count-web-dev",
-    "CorsConfiguration": {
-     "CorsRules": [
-      {
-       "AllowedHeaders": [
-        "*"
-       ],
-       "AllowedMethods": [
-        "GET",
-        "HEAD"
-       ],
-       "AllowedOrigins": [
-        "*"
-       ],
-       "MaxAge": 3600
-      }
-     ]
-    },
-    "PublicAccessBlockConfiguration": {
-     "BlockPublicAcls": false,
-     "BlockPublicPolicy": false,
-     "IgnorePublicAcls": false,
-     "RestrictPublicBuckets": false
-    },
     "Tags": [
      {
       "Key": "aws-cdk:auto-delete-objects",
@@ -44,11 +21,7 @@
       "Key": "Project",
       "Value": "DailyCaloriesCount"
      }
-    ],
-    "WebsiteConfiguration": {
-     "ErrorDocument": "index.html",
-     "IndexDocument": "index.html"
-    }
+    ]
    },
    "UpdateReplacePolicy": "Delete",
    "DeletionPolicy": "Delete",
@@ -64,27 +37,6 @@
     },
     "PolicyDocument": {
      "Statement": [
-      {
-       "Action": "s3:GetObject",
-       "Effect": "Allow",
-       "Principal": {
-        "AWS": "*"
-       },
-       "Resource": {
-        "Fn::Join": [
-         "",
-         [
-          {
-           "Fn::GetAtt": [
-            "WebBucket12880F5B",
-            "Arn"
-           ]
-          },
-          "/*"
-         ]
-        ]
-       }
-      },
       {
        "Action": [
         "s3:DeleteObject*",
@@ -223,7 +175,7 @@
   "CDKMetadata": {
    "Type": "AWS::CDK::Metadata",
    "Properties": {
-    "Analytics": "v2:deflate64:H4sIAAAAAAAA/7VSy07DMBD8lvpYuaFqJQTcQltRDtAocKsq5NhLcePElb3uQ1X+nU2dIMGdk6WZ2fHM2pNkMr5LxgNx9COpypHRRXJ5QyFLTtCHnyaXxyBLwPWFiYB2DgYQVsUOJHr2gC4AZ4WxssxCYbRMpQRPBBsywq+Tr6KCDpDWEddaGWOPoF4Av6xqIfa0eCfBcpHO2Yb3/Mrpra57uw5cglDgerASp3Qb/Rsa3F9T5CTpk8SIDip7ECazxJ5JrcCjs2cyOELhNcLCOevmVoYKauy8O+q5VnD6RTWcKig1ozp5MPCPlfgVGbINlZt91vEteDxiGbo67rnfwY8s8g2fBY+2ysHb4CSsW7dW1AN/+MzZg6Y0j8IDT70HpO9AkbftzCrgPmDDszO1rG+myX1yO9h5rUcu1KgrSPJ4fgOMSnQUWAIAAA=="
+    "Analytics": "v2:deflate64:H4sIAAAAAAAA/12PywrCMBBFv8UsJY1SQdSd1bUtuhSRNB019hHJTJRS+u/GBkFcXbj3zIGJRTxdiOlIvjBSRRlVOhfdgaQqua/OOBNd4lQJdOyYdGS2UAFBmt9BEbIVWQec5QOxkzWwFRszzizU5imrzFRatb4rAMmalvUnvrk0QchDBMbbg2QQ/GJh7/nGIZl6D2icVXD01AB9i789s+apC7CJROBrRCD/01U3189N6ujhqOdZSzfTTGZiKeajO2odWdeQrkHsQ74B2YKzCx0BAAA="
    },
    "Metadata": {
     "aws:cdk:path": "CaloriesCount-Dev-Pipeline/DevDeploy/CaloriesCount-Dev/CDKMetadata/Default"
@@ -235,14 +187,6 @@
   "BucketNamedev": {
    "Value": {
     "Ref": "WebBucket12880F5B"
-   }
-  },
-  "WebsiteURLdev": {
-   "Value": {
-    "Fn::GetAtt": [
-     "WebBucket12880F5B",
-     "WebsiteURL"
-    ]
    }
   }
  },
