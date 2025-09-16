@@ -278,7 +278,7 @@
         "Configuration": {
          "ConnectionArn": "arn:aws:codeconnections:us-east-1:087260250299:connection/c91a69b3-2909-465c-b312-e04db094a023",
          "FullRepositoryId": "raju7258/daily-calories-count-iac",
-         "BranchName": "main"
+         "BranchName": "dev"
         },
         "Name": "raju7258_daily-calories-count-iac",
         "OutputArtifacts": [

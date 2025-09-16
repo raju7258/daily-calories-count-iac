@@ -28,7 +28,12 @@ class DailyCaloriesCountIaCStack(Stack):
             website_index_document="index.html",
             website_error_document="index.html",
             public_read_access=True,
-            block_public_access=s3.BlockPublicAccess.BLOCK_ACLS,
+            block_public_access=s3.BlockPublicAccess(
+                block_public_acls=False,
+                block_public_policy=False,
+                ignore_public_acls=False,
+                restrict_public_buckets=False
+            ),
             removal_policy=removal_policy,
             auto_delete_objects=auto_delete,
             cors=[
