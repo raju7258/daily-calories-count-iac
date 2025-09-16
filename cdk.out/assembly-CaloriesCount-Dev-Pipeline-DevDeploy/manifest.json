@@ -18,7 +18,7 @@
         "validateOnSynth": true,
         "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-deploy-role-${AWS::AccountId}-${AWS::Region}",
         "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-cfn-exec-role-${AWS::AccountId}-${AWS::Region}",
-        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/fe414c616635616edff876908b1ba8ce987e5b772b910513eb5390e81c1a0311.json",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/2032e700b0c45419750ca327bfa2b624ffe682269298e59e5ab743b5e5f59fdb.json",
         "requiresBootstrapStackVersion": 6,
         "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
         "additionalDependencies": [
@@ -40,6 +40,7 @@
             "type": "aws:cdk:analytics:construct",
             "data": {
               "autoDeleteObjects": true,
+              "blockPublicAccess": "*",
               "bucketName": "*",
               "cors": [
                 {
@@ -126,6 +127,53 @@
             "data": "CustomS3AutoDeleteObjectsCustomResourceProviderHandler9D90184F"
           }
         ],
+        "/CaloriesCount-Dev-Pipeline/DevDeploy/CaloriesCount-Dev/UserPool": [
+          {
+            "type": "aws:cdk:analytics:construct",
+            "data": {
+              "accountRecovery": 2,
+              "passwordPolicy": {
+                "minLength": "*",
+                "requireDigits": true,
+                "requireLowercase": true,
+                "requireUppercase": true
+              },
+              "removalPolicy": "destroy",
+              "selfSignUpEnabled": true,
+              "signInAliases": {
+                "email": true
+              },
+              "standardAttributes": {},
+              "userPoolName": "*"
+            }
+          }
+        ],
+        "/CaloriesCount-Dev-Pipeline/DevDeploy/CaloriesCount-Dev/UserPool/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "UserPool6BA7E5F2"
+          }
+        ],
+        "/CaloriesCount-Dev-Pipeline/DevDeploy/CaloriesCount-Dev/UserPoolClient": [
+          {
+            "type": "aws:cdk:analytics:construct",
+            "data": {
+              "authFlows": {
+                "userPassword": true,
+                "userSrp": true
+              },
+              "generateSecret": false,
+              "userPoolClientName": "*",
+              "userPool": "*"
+            }
+          }
+        ],
+        "/CaloriesCount-Dev-Pipeline/DevDeploy/CaloriesCount-Dev/UserPoolClient/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "UserPoolClient2F5918F7"
+          }
+        ],
         "/CaloriesCount-Dev-Pipeline/DevDeploy/CaloriesCount-Dev/BucketName-dev": [
           {
             "type": "aws:cdk:logicalId",
@@ -136,6 +184,18 @@
           {
             "type": "aws:cdk:logicalId",
             "data": "WebsiteURLdev"
+          }
+        ],
+        "/CaloriesCount-Dev-Pipeline/DevDeploy/CaloriesCount-Dev/UserPoolId-dev": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "UserPoolIddev"
+          }
+        ],
+        "/CaloriesCount-Dev-Pipeline/DevDeploy/CaloriesCount-Dev/UserPoolClientId-dev": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "UserPoolClientIddev"
           }
         ],
         "/CaloriesCount-Dev-Pipeline/DevDeploy/CaloriesCount-Dev/CDKMetadata/Default": [

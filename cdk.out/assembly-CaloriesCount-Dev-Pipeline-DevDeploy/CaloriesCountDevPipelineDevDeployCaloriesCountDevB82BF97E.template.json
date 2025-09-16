@@ -3,7 +3,7 @@
   "WebBucket12880F5B": {
    "Type": "AWS::S3::Bucket",
    "Properties": {
-    "BucketName": "calories-count-web-dev-1234",
+    "BucketName": "calories-count-web-dev-12345",
     "CorsConfiguration": {
      "CorsRules": [
       {
@@ -20,6 +20,12 @@
        "MaxAge": 3600
       }
      ]
+    },
+    "PublicAccessBlockConfiguration": {
+     "BlockPublicAcls": true,
+     "BlockPublicPolicy": true,
+     "IgnorePublicAcls": true,
+     "RestrictPublicBuckets": true
     },
     "Tags": [
      {
@@ -193,10 +199,108 @@
     "aws:asset:property": "Code"
    }
   },
+  "UserPool6BA7E5F2": {
+   "Type": "AWS::Cognito::UserPool",
+   "Properties": {
+    "AccountRecoverySetting": {
+     "RecoveryMechanisms": [
+      {
+       "Name": "verified_email",
+       "Priority": 1
+      }
+     ]
+    },
+    "AdminCreateUserConfig": {
+     "AllowAdminCreateUserOnly": false
+    },
+    "AutoVerifiedAttributes": [
+     "email"
+    ],
+    "EmailVerificationMessage": "The verification code to your new account is {####}",
+    "EmailVerificationSubject": "Verify your new account",
+    "Policies": {
+     "PasswordPolicy": {
+      "MinimumLength": 8,
+      "RequireLowercase": true,
+      "RequireNumbers": true,
+      "RequireUppercase": true
+     }
+    },
+    "Schema": [
+     {
+      "Mutable": true,
+      "Name": "email",
+      "Required": true
+     },
+     {
+      "Mutable": true,
+      "Name": "given_name",
+      "Required": true
+     }
+    ],
+    "SmsVerificationMessage": "The verification code to your new account is {####}",
+    "UserPoolName": "nourisheye-user-pool-dev",
+    "UserPoolTags": {
+     "Environment": "dev",
+     "Owner": "DevTeam",
+     "Project": "DailyCaloriesCount"
+    },
+    "UsernameAttributes": [
+     "email"
+    ],
+    "VerificationMessageTemplate": {
+     "DefaultEmailOption": "CONFIRM_WITH_CODE",
+     "EmailMessage": "The verification code to your new account is {####}",
+     "EmailSubject": "Verify your new account",
+     "SmsMessage": "The verification code to your new account is {####}"
+    }
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "CaloriesCount-Dev-Pipeline/DevDeploy/CaloriesCount-Dev/UserPool/Resource"
+   }
+  },
+  "UserPoolClient2F5918F7": {
+   "Type": "AWS::Cognito::UserPoolClient",
+   "Properties": {
+    "AllowedOAuthFlows": [
+     "implicit",
+     "code"
+    ],
+    "AllowedOAuthFlowsUserPoolClient": true,
+    "AllowedOAuthScopes": [
+     "profile",
+     "phone",
+     "email",
+     "openid",
+     "aws.cognito.signin.user.admin"
+    ],
+    "CallbackURLs": [
+     "https://example.com"
+    ],
+    "ClientName": "nourisheye-app-client-dev",
+    "ExplicitAuthFlows": [
+     "ALLOW_USER_PASSWORD_AUTH",
+     "ALLOW_USER_SRP_AUTH",
+     "ALLOW_REFRESH_TOKEN_AUTH"
+    ],
+    "GenerateSecret": false,
+    "SupportedIdentityProviders": [
+     "COGNITO"
+    ],
+    "UserPoolId": {
+     "Ref": "UserPool6BA7E5F2"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "CaloriesCount-Dev-Pipeline/DevDeploy/CaloriesCount-Dev/UserPoolClient/Resource"
+   }
+  },
   "CDKMetadata": {
    "Type": "AWS::CDK::Metadata",
    "Properties": {
-    "Analytics": "v2:deflate64:H4sIAAAAAAAA/7VRS08CMRD+LfRISiWQGOW2PCIeFILeCCHddsRCd2vaKY+Q/e/O0l0TvXua5HtMv286EIP+g+h35Cn0lD70rMnF9Q2lOnCCtmEoruOoDoDrK5MR3RQsICzyPSgMbIQ+Amf5TfEqC2Aj1mWcKeeJrC3WuhPoF8BPp2uIPc3eSTCfZVO24S2/8GZnytC4G3AOUoNvwUKes13aX5HRQ+GO0i6dNepCqIaA3l1IeII8GISZ985PnYoFlNjsaKjnUsP5F1Vxiqr1hGKvooV/jM5vSJdtqMTko0y35WmkMvR0umfb9UeW+IpPYkBXrCC46BWs6221qAX+8EvvjobSjGUAnoUASN9LkXe1ZxHxK2LFlxdqWd4NxaO47+yDMT0fSzQFiFWa309xuLsoAgAA"
+    "Analytics": "v2:deflate64:H4sIAAAAAAAA/7VTy27bMBD8lugY0GrgAEXbm2K7TYC0Nuz6FAQBRa5lxhSpLkk7hqB/78oUnTQoeuuJwszu7OxD43x89Sm/uuAHNxJyN9KqzNuV52LHCHpq3XXe3gSxA//QZjx4OwUNHublMwjvsi8eA7Cs1FbsFqHUShRCgCMiu8wIP2X+4DUMgLBIXC+ltT2A/A5+a2UPZd9mPyngdlZMs0eW+DmqSpkkN4C3wCVgAmv+UlRRv6NEhNruuV5Y8nIkVILzaI8UeIDSKQ8zRItTK0INxg8aA3VnJLz8QXWMrEo5IdvLoOE/Wmcn5DJ7pCYmGxNnzuITm6HScZ6p13NY5DsmbGWUt3m7doALa3XvVggbjF+CsHtAmsiYZQ137mBRpiG1Wa3MPZjKbwdnCL+CQphSC69bHsB7agQFd/AOXzfNW7z71y4c6M1KVWbdzAwvNcik5Qi8M4VWpON6Z1Bzpc+KznMjOcrCe1Rl8KcYwsPQ8PnU4njSHFj6mGhFq42nvP1KKznVOGUPM0lGemyFzblyBQaQe1iBwH4FG64dvBaOwm8uPRF/cRNju45NgvO2XoKzAQU89Nvv4xLwjl+g3Su6nhsaDSucA0//KZ1Y1efMg2+C79jiSFdpPlznn/OPF89OqRHS9lUN+TK+vwGqZ6YS8QMAAA=="
    },
    "Metadata": {
     "aws:cdk:path": "CaloriesCount-Dev-Pipeline/DevDeploy/CaloriesCount-Dev/CDKMetadata/Default"
@@ -216,6 +320,16 @@
      "WebBucket12880F5B",
      "WebsiteURL"
     ]
+   }
+  },
+  "UserPoolIddev": {
+   "Value": {
+    "Ref": "UserPool6BA7E5F2"
+   }
+  },
+  "UserPoolClientIddev": {
+   "Value": {
+    "Ref": "UserPoolClient2F5918F7"
    }
   }
  },
