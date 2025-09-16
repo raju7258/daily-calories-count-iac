@@ -1,0 +1,16 @@
+{
+  "environment": "dev",
+  "resources": {
+    "s3_bucket_name": "calories-count-web-dev-12345",
+    "stack_name": "CaloriesCount-Dev"
+  },
+  "tags": {
+    "Environment": "dev",
+    "Project": "DailyCaloriesCount",
+    "Owner": "DevTeam"
+  },
+  "cors": {
+    "allowed_origins": ["*"]
+  },
+  "retention_policy": "destroy"
+}

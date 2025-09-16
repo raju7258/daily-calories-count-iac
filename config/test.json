@@ -1,0 +1,16 @@
+{
+  "environment": "test",
+  "resources": {
+    "s3_bucket_name": "calories-count-web-test-12345",
+    "stack_name": "CaloriesCount-Test"
+  },
+  "tags": {
+    "Environment": "test",
+    "Project": "DailyCaloriesCount",
+    "Owner": "TestTeam"
+  },
+  "cors": {
+    "allowed_origins": ["*"]
+  },
+  "retention_policy": "destroy"
+}

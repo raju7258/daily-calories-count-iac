@@ -15,6 +15,9 @@
     ]
   },
   "context": {
+    "@aws-cdk/core:defaultStackSynthesizer:@aws-cdk/core:DefaultStackSynthesizer": {
+      "profile": "cdk-usr"
+    },
     "webBuilDir": "../flutter/build/web",
     "@aws-cdk/aws-lambda:recognizeLayerVersion": true,
     "@aws-cdk/core:checkSecretUsage": true,

@@ -1,0 +1,16 @@
+{
+  "environment": "prod",
+  "resources": {
+    "s3_bucket_name": "calories-count-web-prod-12345",
+    "stack_name": "CaloriesCount-Prod"
+  },
+  "tags": {
+    "Environment": "prod",
+    "Project": "DailyCaloriesCount",
+    "Owner": "ProdTeam"
+  },
+  "cors": {
+    "allowed_origins": ["https://yourdomain.com"]
+  },
+  "retention_policy": "retain"
+}
