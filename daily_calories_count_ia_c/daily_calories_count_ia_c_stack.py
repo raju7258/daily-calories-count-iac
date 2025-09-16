@@ -25,23 +25,12 @@ class DailyCaloriesCountIaCStack(Stack):
             self,
             "WebBucket",
             bucket_name=config["resources"]["s3_bucket_name"],
-            website_index_document="index.html",
-            website_error_document="index.html",
             removal_policy=removal_policy,
-            auto_delete_objects=auto_delete,
-            cors=[
-                s3.CorsRule(
-                    allowed_methods=[s3.HttpMethods.GET, s3.HttpMethods.HEAD],
-                    allowed_origins=config["cors"]["allowed_origins"],
-                    allowed_headers=["*"],
-                    max_age=Duration.hours(1).to_seconds()
-                )
-            ],
+            auto_delete_objects=auto_delete
         )
         # Apply tags
         for key, value in config["tags"].items():
             Tags.of(self).add(key, value)
             
         CfnOutput(self, f"BucketName-{env_name}", value=web_bucket.bucket_name)
-        CfnOutput(self, f"WebsiteURL-{env_name}", value=web_bucket.bucket_website_url)
 
