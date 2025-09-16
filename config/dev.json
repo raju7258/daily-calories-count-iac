@@ -1,7 +1,7 @@
 {
   "environment": "dev",
   "resources": {
-    "s3_bucket_name": "calories-count-web-dev-12345",
+    "s3_bucket_name": "calories-count-web-dev",
     "stack_name": "CaloriesCount-Dev"
   },
   "tags": {
@@ -12,5 +12,9 @@
   "cors": {
     "allowed_origins": ["*"]
   },
-  "retention_policy": "destroy"
+  "retention_policy": "destroy",
+  "github": {
+    "app_repo": "daily-calories-count",
+    "iac_repo": "daily-calories-count-iac"
+  }
 }

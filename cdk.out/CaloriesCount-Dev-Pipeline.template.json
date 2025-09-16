@@ -1,0 +1,1226 @@
+{
+ "Resources": {
+  "DevPipelineArtifactsBucketFDCE0052": {
+   "Type": "AWS::S3::Bucket",
+   "Properties": {
+    "BucketEncryption": {
+     "ServerSideEncryptionConfiguration": [
+      {
+       "ServerSideEncryptionByDefault": {
+        "SSEAlgorithm": "aws:kms"
+       }
+      }
+     ]
+    },
+    "PublicAccessBlockConfiguration": {
+     "BlockPublicAcls": true,
+     "BlockPublicPolicy": true,
+     "IgnorePublicAcls": true,
+     "RestrictPublicBuckets": true
+    }
+   },
+   "UpdateReplacePolicy": "Retain",
+   "DeletionPolicy": "Retain",
+   "Metadata": {
+    "aws:cdk:path": "CaloriesCount-Dev-Pipeline/DevPipeline/Pipeline/ArtifactsBucket/Resource"
+   }
+  },
+  "DevPipelineArtifactsBucketPolicy675ECBF3": {
+   "Type": "AWS::S3::BucketPolicy",
+   "Properties": {
+    "Bucket": {
+     "Ref": "DevPipelineArtifactsBucketFDCE0052"
+    },
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": "s3:*",
+       "Condition": {
+        "Bool": {
+         "aws:SecureTransport": "false"
+        }
+       },
+       "Effect": "Deny",
+       "Principal": {
+        "AWS": "*"
+       },
+       "Resource": [
+        {
+         "Fn::GetAtt": [
+          "DevPipelineArtifactsBucketFDCE0052",
+          "Arn"
+         ]
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           {
+            "Fn::GetAtt": [
+             "DevPipelineArtifactsBucketFDCE0052",
+             "Arn"
+            ]
+           },
+           "/*"
+          ]
+         ]
+        }
+       ]
+      },
+      {
+       "Action": [
+        "s3:GetBucket*",
+        "s3:GetObject*",
+        "s3:List*"
+       ],
+       "Effect": "Allow",
+       "Principal": {
+        "AWS": {
+         "Fn::Join": [
+          "",
+          [
+           "arn:",
+           {
+            "Ref": "AWS::Partition"
+           },
+           ":iam::",
+           {
+            "Ref": "AWS::AccountId"
+           },
+           ":role/cdk-hnb659fds-deploy-role-",
+           {
+            "Ref": "AWS::AccountId"
+           },
+           "-",
+           {
+            "Ref": "AWS::Region"
+           }
+          ]
+         ]
+        }
+       },
+       "Resource": [
+        {
+         "Fn::GetAtt": [
+          "DevPipelineArtifactsBucketFDCE0052",
+          "Arn"
+         ]
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           {
+            "Fn::GetAtt": [
+             "DevPipelineArtifactsBucketFDCE0052",
+             "Arn"
+            ]
+           },
+           "/*"
+          ]
+         ]
+        }
+       ]
+      }
+     ],
+     "Version": "2012-10-17"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "CaloriesCount-Dev-Pipeline/DevPipeline/Pipeline/ArtifactsBucket/Policy/Resource"
+   }
+  },
+  "DevPipelineRoleA7835389": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "codepipeline.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "CaloriesCount-Dev-Pipeline/DevPipeline/Pipeline/Role/Resource"
+   }
+  },
+  "DevPipelineRoleDefaultPolicyC6C64DB6": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": [
+        "s3:Abort*",
+        "s3:DeleteObject*",
+        "s3:GetBucket*",
+        "s3:GetObject*",
+        "s3:List*",
+        "s3:PutObject",
+        "s3:PutObjectLegalHold",
+        "s3:PutObjectRetention",
+        "s3:PutObjectTagging",
+        "s3:PutObjectVersionTagging"
+       ],
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Fn::GetAtt": [
+          "DevPipelineArtifactsBucketFDCE0052",
+          "Arn"
+         ]
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           {
+            "Fn::GetAtt": [
+             "DevPipelineArtifactsBucketFDCE0052",
+             "Arn"
+            ]
+           },
+           "/*"
+          ]
+         ]
+        }
+       ]
+      },
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Fn::GetAtt": [
+          "DevPipelineCodeBuildActionRoleDE50B9AF",
+          "Arn"
+         ]
+        },
+        {
+         "Fn::GetAtt": [
+          "DevPipelineSourceraju7258dailycaloriescountiacCodePipelineActionRole6A8967C7",
+          "Arn"
+         ]
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           "arn:",
+           {
+            "Ref": "AWS::Partition"
+           },
+           ":iam::",
+           {
+            "Ref": "AWS::AccountId"
+           },
+           ":role/cdk-hnb659fds-deploy-role-",
+           {
+            "Ref": "AWS::AccountId"
+           },
+           "-",
+           {
+            "Ref": "AWS::Region"
+           }
+          ]
+         ]
+        }
+       ]
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "DevPipelineRoleDefaultPolicyC6C64DB6",
+    "Roles": [
+     {
+      "Ref": "DevPipelineRoleA7835389"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "CaloriesCount-Dev-Pipeline/DevPipeline/Pipeline/Role/DefaultPolicy/Resource"
+   }
+  },
+  "DevPipelineFDCE0BC4": {
+   "Type": "AWS::CodePipeline::Pipeline",
+   "Properties": {
+    "ArtifactStore": {
+     "Location": {
+      "Ref": "DevPipelineArtifactsBucketFDCE0052"
+     },
+     "Type": "S3"
+    },
+    "Name": "CaloriesCount-Dev-Pipeline",
+    "PipelineType": "V2",
+    "RestartExecutionOnUpdate": true,
+    "RoleArn": {
+     "Fn::GetAtt": [
+      "DevPipelineRoleA7835389",
+      "Arn"
+     ]
+    },
+    "Stages": [
+     {
+      "Actions": [
+       {
+        "ActionTypeId": {
+         "Category": "Source",
+         "Owner": "AWS",
+         "Provider": "CodeStarSourceConnection",
+         "Version": "1"
+        },
+        "Configuration": {
+         "ConnectionArn": "arn:aws:codeconnections:us-east-1:087260250299:connection/c91a69b3-2909-465c-b312-e04db094a023",
+         "FullRepositoryId": "raju7258/daily-calories-count-iac",
+         "BranchName": "dev"
+        },
+        "Name": "raju7258_daily-calories-count-iac",
+        "OutputArtifacts": [
+         {
+          "Name": "raju7258_daily_calories_count_iac_Source"
+         }
+        ],
+        "RoleArn": {
+         "Fn::GetAtt": [
+          "DevPipelineSourceraju7258dailycaloriescountiacCodePipelineActionRole6A8967C7",
+          "Arn"
+         ]
+        },
+        "RunOrder": 1
+       }
+      ],
+      "Name": "Source"
+     },
+     {
+      "Actions": [
+       {
+        "ActionTypeId": {
+         "Category": "Build",
+         "Owner": "AWS",
+         "Provider": "CodeBuild",
+         "Version": "1"
+        },
+        "Configuration": {
+         "ProjectName": {
+          "Ref": "DevPipelineBuildSynthCdkBuildProject442ECCAA"
+         },
+         "EnvironmentVariables": "[{\"name\":\"_PROJECT_CONFIG_HASH\",\"type\":\"PLAINTEXT\",\"value\":\"6952d4f3509f4adec8e8f2c3bf5553af327a5b8fdd4ab887ad252d4c1c638384\"}]"
+        },
+        "InputArtifacts": [
+         {
+          "Name": "raju7258_daily_calories_count_iac_Source"
+         }
+        ],
+        "Name": "Synth",
+        "OutputArtifacts": [
+         {
+          "Name": "Synth_Output"
+         }
+        ],
+        "RoleArn": {
+         "Fn::GetAtt": [
+          "DevPipelineCodeBuildActionRoleDE50B9AF",
+          "Arn"
+         ]
+        },
+        "RunOrder": 1
+       }
+      ],
+      "Name": "Build"
+     },
+     {
+      "Actions": [
+       {
+        "ActionTypeId": {
+         "Category": "Build",
+         "Owner": "AWS",
+         "Provider": "CodeBuild",
+         "Version": "1"
+        },
+        "Configuration": {
+         "ProjectName": {
+          "Ref": "DevPipelineUpdatePipelineSelfMutation31C30A6E"
+         },
+         "EnvironmentVariables": "[{\"name\":\"_PROJECT_CONFIG_HASH\",\"type\":\"PLAINTEXT\",\"value\":\"5d9e03c3e60447b1d396899c7796003d135c1461b6e58107db2b349150ffda54\"}]"
+        },
+        "InputArtifacts": [
+         {
+          "Name": "Synth_Output"
+         }
+        ],
+        "Name": "SelfMutate",
+        "RoleArn": {
+         "Fn::GetAtt": [
+          "DevPipelineCodeBuildActionRoleDE50B9AF",
+          "Arn"
+         ]
+        },
+        "RunOrder": 1
+       }
+      ],
+      "Name": "UpdatePipeline"
+     },
+     {
+      "Actions": [
+       {
+        "ActionTypeId": {
+         "Category": "Build",
+         "Owner": "AWS",
+         "Provider": "CodeBuild",
+         "Version": "1"
+        },
+        "Configuration": {
+         "ProjectName": {
+          "Ref": "DevPipelineAssetsFileAsset130933E25"
+         }
+        },
+        "InputArtifacts": [
+         {
+          "Name": "Synth_Output"
+         }
+        ],
+        "Name": "CaloriesCount-Dev-Pipeline_DevDeploy_Calories89d81c303AutoDeleteObjectsCustomResourceProvider_Code",
+        "RoleArn": {
+         "Fn::GetAtt": [
+          "DevPipelineCodeBuildActionRoleDE50B9AF",
+          "Arn"
+         ]
+        },
+        "RunOrder": 1
+       }
+      ],
+      "Name": "Assets"
+     },
+     {
+      "Actions": [
+       {
+        "ActionTypeId": {
+         "Category": "Deploy",
+         "Owner": "AWS",
+         "Provider": "CloudFormation",
+         "Version": "1"
+        },
+        "Configuration": {
+         "StackName": "DevDeploy-CaloriesCount-Dev",
+         "Capabilities": "CAPABILITY_NAMED_IAM,CAPABILITY_AUTO_EXPAND",
+         "RoleArn": {
+          "Fn::Join": [
+           "",
+           [
+            "arn:",
+            {
+             "Ref": "AWS::Partition"
+            },
+            ":iam::",
+            {
+             "Ref": "AWS::AccountId"
+            },
+            ":role/cdk-hnb659fds-cfn-exec-role-",
+            {
+             "Ref": "AWS::AccountId"
+            },
+            "-",
+            {
+             "Ref": "AWS::Region"
+            }
+           ]
+          ]
+         },
+         "ActionMode": "CHANGE_SET_REPLACE",
+         "ChangeSetName": "PipelineChange",
+         "TemplatePath": "Synth_Output::assembly-CaloriesCount-Dev-Pipeline-DevDeploy/CaloriesCountDevPipelineDevDeployCaloriesCountDevB82BF97E.template.json"
+        },
+        "InputArtifacts": [
+         {
+          "Name": "Synth_Output"
+         }
+        ],
+        "Name": "Prepare",
+        "RoleArn": {
+         "Fn::Join": [
+          "",
+          [
+           "arn:",
+           {
+            "Ref": "AWS::Partition"
+           },
+           ":iam::",
+           {
+            "Ref": "AWS::AccountId"
+           },
+           ":role/cdk-hnb659fds-deploy-role-",
+           {
+            "Ref": "AWS::AccountId"
+           },
+           "-",
+           {
+            "Ref": "AWS::Region"
+           }
+          ]
+         ]
+        },
+        "RunOrder": 1
+       },
+       {
+        "ActionTypeId": {
+         "Category": "Deploy",
+         "Owner": "AWS",
+         "Provider": "CloudFormation",
+         "Version": "1"
+        },
+        "Configuration": {
+         "StackName": "DevDeploy-CaloriesCount-Dev",
+         "ActionMode": "CHANGE_SET_EXECUTE",
+         "ChangeSetName": "PipelineChange"
+        },
+        "Name": "Deploy",
+        "RoleArn": {
+         "Fn::Join": [
+          "",
+          [
+           "arn:",
+           {
+            "Ref": "AWS::Partition"
+           },
+           ":iam::",
+           {
+            "Ref": "AWS::AccountId"
+           },
+           ":role/cdk-hnb659fds-deploy-role-",
+           {
+            "Ref": "AWS::AccountId"
+           },
+           "-",
+           {
+            "Ref": "AWS::Region"
+           }
+          ]
+         ]
+        },
+        "RunOrder": 2
+       }
+      ],
+      "Name": "DevDeploy"
+     }
+    ]
+   },
+   "DependsOn": [
+    "DevPipelineRoleDefaultPolicyC6C64DB6",
+    "DevPipelineRoleA7835389"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "CaloriesCount-Dev-Pipeline/DevPipeline/Pipeline/Resource"
+   }
+  },
+  "DevPipelineSourceraju7258dailycaloriescountiacCodePipelineActionRole6A8967C7": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "AWS": {
+         "Fn::GetAtt": [
+          "DevPipelineRoleA7835389",
+          "Arn"
+         ]
+        }
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "CaloriesCount-Dev-Pipeline/DevPipeline/Pipeline/Source/raju7258_daily-calories-count-iac/CodePipelineActionRole/Resource"
+   }
+  },
+  "DevPipelineSourceraju7258dailycaloriescountiacCodePipelineActionRoleDefaultPolicy06566C28": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": "codestar-connections:UseConnection",
+       "Effect": "Allow",
+       "Resource": "arn:aws:codeconnections:us-east-1:087260250299:connection/c91a69b3-2909-465c-b312-e04db094a023"
+      },
+      {
+       "Action": [
+        "s3:Abort*",
+        "s3:DeleteObject*",
+        "s3:GetBucket*",
+        "s3:GetObject*",
+        "s3:List*",
+        "s3:PutObject",
+        "s3:PutObjectLegalHold",
+        "s3:PutObjectRetention",
+        "s3:PutObjectTagging",
+        "s3:PutObjectVersionTagging"
+       ],
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Fn::GetAtt": [
+          "DevPipelineArtifactsBucketFDCE0052",
+          "Arn"
+         ]
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           {
+            "Fn::GetAtt": [
+             "DevPipelineArtifactsBucketFDCE0052",
+             "Arn"
+            ]
+           },
+           "/*"
+          ]
+         ]
+        }
+       ]
+      },
+      {
+       "Action": [
+        "s3:PutObjectAcl",
+        "s3:PutObjectVersionAcl"
+       ],
+       "Effect": "Allow",
+       "Resource": {
+        "Fn::Join": [
+         "",
+         [
+          {
+           "Fn::GetAtt": [
+            "DevPipelineArtifactsBucketFDCE0052",
+            "Arn"
+           ]
+          },
+          "/*"
+         ]
+        ]
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "DevPipelineSourceraju7258dailycaloriescountiacCodePipelineActionRoleDefaultPolicy06566C28",
+    "Roles": [
+     {
+      "Ref": "DevPipelineSourceraju7258dailycaloriescountiacCodePipelineActionRole6A8967C7"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "CaloriesCount-Dev-Pipeline/DevPipeline/Pipeline/Source/raju7258_daily-calories-count-iac/CodePipelineActionRole/DefaultPolicy/Resource"
+   }
+  },
+  "DevPipelineBuildSynthCdkBuildProjectRole24C93751": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "codebuild.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "CaloriesCount-Dev-Pipeline/DevPipeline/Pipeline/Build/Synth/CdkBuildProject/Role/Resource"
+   }
+  },
+  "DevPipelineBuildSynthCdkBuildProjectRoleDefaultPolicyBC8858CC": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": [
+        "logs:CreateLogGroup",
+        "logs:CreateLogStream",
+        "logs:PutLogEvents"
+       ],
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Fn::Join": [
+          "",
+          [
+           "arn:aws:logs:us-east-1:087260250299:log-group:/aws/codebuild/",
+           {
+            "Ref": "DevPipelineBuildSynthCdkBuildProject442ECCAA"
+           },
+           ":*"
+          ]
+         ]
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           "arn:aws:logs:us-east-1:087260250299:log-group:/aws/codebuild/",
+           {
+            "Ref": "DevPipelineBuildSynthCdkBuildProject442ECCAA"
+           }
+          ]
+         ]
+        }
+       ]
+      },
+      {
+       "Action": [
+        "codebuild:BatchPutCodeCoverages",
+        "codebuild:BatchPutTestCases",
+        "codebuild:CreateReport",
+        "codebuild:CreateReportGroup",
+        "codebuild:UpdateReport"
+       ],
+       "Effect": "Allow",
+       "Resource": {
+        "Fn::Join": [
+         "",
+         [
+          "arn:aws:codebuild:us-east-1:087260250299:report-group/",
+          {
+           "Ref": "DevPipelineBuildSynthCdkBuildProject442ECCAA"
+          },
+          "-*"
+         ]
+        ]
+       }
+      },
+      {
+       "Action": [
+        "s3:Abort*",
+        "s3:DeleteObject*",
+        "s3:GetBucket*",
+        "s3:GetObject*",
+        "s3:List*",
+        "s3:PutObject",
+        "s3:PutObjectLegalHold",
+        "s3:PutObjectRetention",
+        "s3:PutObjectTagging",
+        "s3:PutObjectVersionTagging"
+       ],
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Fn::GetAtt": [
+          "DevPipelineArtifactsBucketFDCE0052",
+          "Arn"
+         ]
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           {
+            "Fn::GetAtt": [
+             "DevPipelineArtifactsBucketFDCE0052",
+             "Arn"
+            ]
+           },
+           "/*"
+          ]
+         ]
+        }
+       ]
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "DevPipelineBuildSynthCdkBuildProjectRoleDefaultPolicyBC8858CC",
+    "Roles": [
+     {
+      "Ref": "DevPipelineBuildSynthCdkBuildProjectRole24C93751"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "CaloriesCount-Dev-Pipeline/DevPipeline/Pipeline/Build/Synth/CdkBuildProject/Role/DefaultPolicy/Resource"
+   }
+  },
+  "DevPipelineBuildSynthCdkBuildProject442ECCAA": {
+   "Type": "AWS::CodeBuild::Project",
+   "Properties": {
+    "Artifacts": {
+     "Type": "CODEPIPELINE"
+    },
+    "Cache": {
+     "Type": "NO_CACHE"
+    },
+    "Description": "Pipeline step CaloriesCount-Dev-Pipeline/Pipeline/Build/Synth",
+    "EncryptionKey": "alias/aws/s3",
+    "Environment": {
+     "ComputeType": "BUILD_GENERAL1_SMALL",
+     "Image": "aws/codebuild/standard:7.0",
+     "ImagePullCredentialsType": "CODEBUILD",
+     "PrivilegedMode": false,
+     "Type": "LINUX_CONTAINER"
+    },
+    "ServiceRole": {
+     "Fn::GetAtt": [
+      "DevPipelineBuildSynthCdkBuildProjectRole24C93751",
+      "Arn"
+     ]
+    },
+    "Source": {
+     "BuildSpec": "{\n  \"version\": \"0.2\",\n  \"phases\": {\n    \"build\": {\n      \"commands\": [\n        \"npm install -g aws-cdk\",\n        \"pip install -r requirements.txt\",\n        \"cdk synth\"\n      ]\n    }\n  },\n  \"artifacts\": {\n    \"base-directory\": \"cdk.out\",\n    \"files\": \"**/*\"\n  }\n}",
+     "Type": "CODEPIPELINE"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "CaloriesCount-Dev-Pipeline/DevPipeline/Pipeline/Build/Synth/CdkBuildProject/Resource"
+   }
+  },
+  "DevPipelineCodeBuildActionRoleDE50B9AF": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "AWS": {
+         "Fn::GetAtt": [
+          "DevPipelineRoleA7835389",
+          "Arn"
+         ]
+        }
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "CaloriesCount-Dev-Pipeline/DevPipeline/CodeBuildActionRole/Resource"
+   }
+  },
+  "DevPipelineCodeBuildActionRoleDefaultPolicy2783C60F": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": [
+        "codebuild:BatchGetBuilds",
+        "codebuild:StartBuild",
+        "codebuild:StopBuild"
+       ],
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Fn::GetAtt": [
+          "DevPipelineAssetsFileAsset130933E25",
+          "Arn"
+         ]
+        },
+        {
+         "Fn::GetAtt": [
+          "DevPipelineBuildSynthCdkBuildProject442ECCAA",
+          "Arn"
+         ]
+        },
+        {
+         "Fn::GetAtt": [
+          "DevPipelineUpdatePipelineSelfMutation31C30A6E",
+          "Arn"
+         ]
+        }
+       ]
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "DevPipelineCodeBuildActionRoleDefaultPolicy2783C60F",
+    "Roles": [
+     {
+      "Ref": "DevPipelineCodeBuildActionRoleDE50B9AF"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "CaloriesCount-Dev-Pipeline/DevPipeline/CodeBuildActionRole/DefaultPolicy/Resource"
+   }
+  },
+  "DevPipelineUpdatePipelineSelfMutationRoleFBF024FC": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "codebuild.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "CaloriesCount-Dev-Pipeline/DevPipeline/UpdatePipeline/SelfMutation/Role/Resource"
+   }
+  },
+  "DevPipelineUpdatePipelineSelfMutationRoleDefaultPolicyCA2AB922": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": [
+        "logs:CreateLogGroup",
+        "logs:CreateLogStream",
+        "logs:PutLogEvents"
+       ],
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Fn::Join": [
+          "",
+          [
+           "arn:aws:logs:us-east-1:087260250299:log-group:/aws/codebuild/",
+           {
+            "Ref": "DevPipelineUpdatePipelineSelfMutation31C30A6E"
+           },
+           ":*"
+          ]
+         ]
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           "arn:aws:logs:us-east-1:087260250299:log-group:/aws/codebuild/",
+           {
+            "Ref": "DevPipelineUpdatePipelineSelfMutation31C30A6E"
+           }
+          ]
+         ]
+        }
+       ]
+      },
+      {
+       "Action": [
+        "codebuild:BatchPutCodeCoverages",
+        "codebuild:BatchPutTestCases",
+        "codebuild:CreateReport",
+        "codebuild:CreateReportGroup",
+        "codebuild:UpdateReport"
+       ],
+       "Effect": "Allow",
+       "Resource": {
+        "Fn::Join": [
+         "",
+         [
+          "arn:aws:codebuild:us-east-1:087260250299:report-group/",
+          {
+           "Ref": "DevPipelineUpdatePipelineSelfMutation31C30A6E"
+          },
+          "-*"
+         ]
+        ]
+       }
+      },
+      {
+       "Action": "sts:AssumeRole",
+       "Condition": {
+        "ForAnyValue:StringEquals": {
+         "iam:ResourceTag/aws-cdk:bootstrap-role": [
+          "image-publishing",
+          "file-publishing",
+          "deploy"
+         ]
+        }
+       },
+       "Effect": "Allow",
+       "Resource": "arn:*:iam::087260250299:role/*"
+      },
+      {
+       "Action": [
+        "cloudformation:DescribeStacks",
+        "s3:ListBucket"
+       ],
+       "Effect": "Allow",
+       "Resource": "*"
+      },
+      {
+       "Action": [
+        "s3:GetBucket*",
+        "s3:GetObject*",
+        "s3:List*"
+       ],
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Fn::GetAtt": [
+          "DevPipelineArtifactsBucketFDCE0052",
+          "Arn"
+         ]
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           {
+            "Fn::GetAtt": [
+             "DevPipelineArtifactsBucketFDCE0052",
+             "Arn"
+            ]
+           },
+           "/*"
+          ]
+         ]
+        }
+       ]
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "DevPipelineUpdatePipelineSelfMutationRoleDefaultPolicyCA2AB922",
+    "Roles": [
+     {
+      "Ref": "DevPipelineUpdatePipelineSelfMutationRoleFBF024FC"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "CaloriesCount-Dev-Pipeline/DevPipeline/UpdatePipeline/SelfMutation/Role/DefaultPolicy/Resource"
+   }
+  },
+  "DevPipelineUpdatePipelineSelfMutation31C30A6E": {
+   "Type": "AWS::CodeBuild::Project",
+   "Properties": {
+    "Artifacts": {
+     "Type": "CODEPIPELINE"
+    },
+    "Cache": {
+     "Type": "NO_CACHE"
+    },
+    "Description": "Pipeline step CaloriesCount-Dev-Pipeline/Pipeline/UpdatePipeline/SelfMutate",
+    "EncryptionKey": "alias/aws/s3",
+    "Environment": {
+     "ComputeType": "BUILD_GENERAL1_SMALL",
+     "Image": "aws/codebuild/standard:7.0",
+     "ImagePullCredentialsType": "CODEBUILD",
+     "PrivilegedMode": false,
+     "Type": "LINUX_CONTAINER"
+    },
+    "Name": "CaloriesCount-Dev-Pipeline-selfupdate",
+    "ServiceRole": {
+     "Fn::GetAtt": [
+      "DevPipelineUpdatePipelineSelfMutationRoleFBF024FC",
+      "Arn"
+     ]
+    },
+    "Source": {
+     "BuildSpec": "{\n  \"version\": \"0.2\",\n  \"phases\": {\n    \"install\": {\n      \"commands\": [\n        \"npm install -g aws-cdk@2\"\n      ]\n    },\n    \"build\": {\n      \"commands\": [\n        \"cdk -a . deploy CaloriesCount-Dev-Pipeline --require-approval=never --verbose\"\n      ]\n    }\n  }\n}",
+     "Type": "CODEPIPELINE"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "CaloriesCount-Dev-Pipeline/DevPipeline/UpdatePipeline/SelfMutation/Resource"
+   }
+  },
+  "DevPipelineAssetsFileRole27A546DF": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "codebuild.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "CaloriesCount-Dev-Pipeline/DevPipeline/Assets/FileRole/Resource"
+   }
+  },
+  "DevPipelineAssetsFileRoleDefaultPolicyAF3C523F": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": [
+        "logs:CreateLogGroup",
+        "logs:CreateLogStream",
+        "logs:PutLogEvents"
+       ],
+       "Effect": "Allow",
+       "Resource": "arn:aws:logs:us-east-1:087260250299:log-group:/aws/codebuild/*"
+      },
+      {
+       "Action": [
+        "codebuild:BatchPutCodeCoverages",
+        "codebuild:BatchPutTestCases",
+        "codebuild:CreateReport",
+        "codebuild:CreateReportGroup",
+        "codebuild:UpdateReport"
+       ],
+       "Effect": "Allow",
+       "Resource": "arn:aws:codebuild:us-east-1:087260250299:report-group/*"
+      },
+      {
+       "Action": [
+        "codebuild:BatchGetBuilds",
+        "codebuild:StartBuild",
+        "codebuild:StopBuild"
+       ],
+       "Effect": "Allow",
+       "Resource": "*"
+      },
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Resource": {
+        "Fn::Sub": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-file-publishing-role-${AWS::AccountId}-${AWS::Region}"
+       }
+      },
+      {
+       "Action": [
+        "s3:GetBucket*",
+        "s3:GetObject*",
+        "s3:List*"
+       ],
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Fn::GetAtt": [
+          "DevPipelineArtifactsBucketFDCE0052",
+          "Arn"
+         ]
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           {
+            "Fn::GetAtt": [
+             "DevPipelineArtifactsBucketFDCE0052",
+             "Arn"
+            ]
+           },
+           "/*"
+          ]
+         ]
+        }
+       ]
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "DevPipelineAssetsFileRoleDefaultPolicyAF3C523F",
+    "Roles": [
+     {
+      "Ref": "DevPipelineAssetsFileRole27A546DF"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "CaloriesCount-Dev-Pipeline/DevPipeline/Assets/FileRole/DefaultPolicy/Resource"
+   }
+  },
+  "DevPipelineAssetsFileAsset130933E25": {
+   "Type": "AWS::CodeBuild::Project",
+   "Properties": {
+    "Artifacts": {
+     "Type": "CODEPIPELINE"
+    },
+    "Cache": {
+     "Type": "NO_CACHE"
+    },
+    "Description": "Pipeline step CaloriesCount-Dev-Pipeline/Pipeline/Assets/CaloriesCount-Dev-Pipeline_DevDeploy_Calories89d81c303AutoDeleteObjectsCustomResourceProvider_Code",
+    "EncryptionKey": "alias/aws/s3",
+    "Environment": {
+     "ComputeType": "BUILD_GENERAL1_SMALL",
+     "Image": "aws/codebuild/standard:7.0",
+     "ImagePullCredentialsType": "CODEBUILD",
+     "PrivilegedMode": false,
+     "Type": "LINUX_CONTAINER"
+    },
+    "ServiceRole": {
+     "Fn::GetAtt": [
+      "DevPipelineAssetsFileRole27A546DF",
+      "Arn"
+     ]
+    },
+    "Source": {
+     "BuildSpec": "{\n  \"version\": \"0.2\",\n  \"phases\": {\n    \"install\": {\n      \"commands\": [\n        \"npm install -g cdk-assets@latest\"\n      ]\n    },\n    \"build\": {\n      \"commands\": [\n        \"cdk-assets --path \\\"assembly-CaloriesCount-Dev-Pipeline-DevDeploy/CaloriesCountDevPipelineDevDeployCaloriesCountDevB82BF97E.assets.json\\\" --verbose publish \\\"faa95a81ae7d7373f3e1f242268f904eb748d8d0fdd306e8a6fe515a1905a7d6:current_account-current_region-e31788a2\\\"\"\n      ]\n    }\n  }\n}",
+     "Type": "CODEPIPELINE"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "CaloriesCount-Dev-Pipeline/DevPipeline/Assets/FileAsset1/Resource"
+   }
+  },
+  "CDKMetadata": {
+   "Type": "AWS::CDK::Metadata",
+   "Properties": {
+    "Analytics": "v2:deflate64:H4sIAAAAAAAA/+1XXW/TMBT9LcsjcsPUSQj21pWB0NiI0sLLNE2Oc9t5TezIdoAq6n/nOraTjo8JWKtlCKlVk3uu78c5t4k9jseHL+PDA/pFj1i+GhU8i5uZoWxFKl5BwQXoeCpzSPwdQc/rhqEl4HETsMsmCsYLWkJ0HD2LSGearytr+jRGG1NS6wljshbmDNY6Ol7QQoMHUlhyKVKoCs6owcuTmq3AaB9QQa1h2jvO6qqSyrRV9z7aUGVOvwKrbYQP4mOVU4MFGFVjHiWLUB8ImhWAVaTStNm8HZfzBWXGJfdGzBy6TTHEG6kmzK4JHWxIE9E8x1qWGB8J0faqY2NzNQiHKzJdiNDHhuijuHFdonPWXmzpB4KpdWWbRI5+sKHh7Hx2fT65mLw9fd1CC6kYzGbvA9dZIdkqqTNUEyUH3WtUys+0SCQCNrACQ7mIXHWuHuJ+nEtXnG+jd3P4hnBaxo3VBV2p1nUJ+QlGxrFUXDBe0cLPXJC49bELnIousJuOni9H51wmIUio+LLxZBscvZt3wrLZYbjyN8D74w4T/Wti7eqlosJMOniLixZx9+QuP39W3qOIcWdiyAM5GmKDWx35/8SAldx7aXtP8O/P097QnVK3Bx12ScQDpdu5JrsLONz5ugdttyRWeeJ3LHYgghJz+d2j4lfmdutmoARht7xbaQdhfqSW/qd9KnPzFGp3ByB/arCH2azmRd6fZBMlb4Hhccg9iX7ycRGcGz7cU9CyxmNPeO/v44vdJGtzI8Xzo/hV/OLgVnM+Uvji4SXEqfv9BgOT1/vQDwAA"
+   },
+   "Metadata": {
+    "aws:cdk:path": "CaloriesCount-Dev-Pipeline/CDKMetadata/Default"
+   }
+  }
+ },
+ "Parameters": {
+  "BootstrapVersion": {
+   "Type": "AWS::SSM::Parameter::Value<String>",
+   "Default": "/cdk-bootstrap/hnb659fds/version",
+   "Description": "Version of the CDK Bootstrap resources in this environment, automatically retrieved from SSM Parameter Store. [cdk:skip]"
+  }
+ },
+ "Rules": {
+  "CheckBootstrapVersion": {
+   "Assertions": [
+    {
+     "Assert": {
+      "Fn::Not": [
+       {
+        "Fn::Contains": [
+         [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5"
+         ],
+         {
+          "Ref": "BootstrapVersion"
+         }
+        ]
+       }
+      ]
+     },
+     "AssertDescription": "CDK bootstrap stack version 6 required. Please run 'cdk bootstrap' with a recent version of the CDK CLI."
+    }
+   ]
+  }
+ }
+}

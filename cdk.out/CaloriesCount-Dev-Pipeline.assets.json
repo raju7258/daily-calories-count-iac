@@ -1,0 +1,21 @@
+{
+  "version": "45.0.0",
+  "files": {
+    "a699f43e957de98e0f3d048c90941847ce7acac02d21988eea0f7b73d46660a1": {
+      "displayName": "CaloriesCount-Dev-Pipeline Template",
+      "source": {
+        "path": "CaloriesCount-Dev-Pipeline.template.json",
+        "packaging": "file"
+      },
+      "destinations": {
+        "087260250299-us-east-1-2c1bfc32": {
+          "bucketName": "cdk-hnb659fds-assets-087260250299-us-east-1",
+          "objectKey": "a699f43e957de98e0f3d048c90941847ce7acac02d21988eea0f7b73d46660a1.json",
+          "region": "us-east-1",
+          "assumeRoleArn": "arn:${AWS::Partition}:iam::087260250299:role/cdk-hnb659fds-file-publishing-role-087260250299-us-east-1"
+        }
+      }
+    }
+  },
+  "dockerImages": {}
+}

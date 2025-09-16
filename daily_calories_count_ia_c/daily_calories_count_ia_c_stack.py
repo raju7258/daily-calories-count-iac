@@ -33,7 +33,7 @@ class DailyCaloriesCountIaCStack(Stack):
             auto_delete_objects=auto_delete,
             cors=[
                 s3.CorsRule(
-                    allowed_methods=[s3.HttpMethods.GET, s3.HttpMethods.HEAD, s3.HttpMethods.OPTIONS],
+                    allowed_methods=[s3.HttpMethods.GET, s3.HttpMethods.HEAD],
                     allowed_origins=config["cors"]["allowed_origins"],
                     allowed_headers=["*"],
                     max_age=Duration.hours(1).to_seconds()
@@ -44,6 +44,6 @@ class DailyCaloriesCountIaCStack(Stack):
         for key, value in config["tags"].items():
             Tags.of(self).add(key, value)
             
-        CfnOutput(self, f"WebsiteURL-{env_name}", value=web_bucket.bucket_website_url)
         CfnOutput(self, f"BucketName-{env_name}", value=web_bucket.bucket_name)
+        CfnOutput(self, f"WebsiteURL-{env_name}", value=web_bucket.bucket_website_url)
 

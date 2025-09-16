@@ -1,5 +1,6 @@
 from aws_cdk import (
     Stack,
+    Stage,
     pipelines
 )
 from constructs import Construct
@@ -9,9 +10,10 @@ class DevPipelineStack(Stack):
     def __init__(self, scope: Construct, construct_id: str, **kwargs) -> None:
         super().__init__(scope, construct_id, **kwargs)
 
-        source = pipelines.CodePipelineSource.git_hub(
+        source = pipelines.CodePipelineSource.connection(
             "raju7258/daily-calories-count-iac",
-            "dev"  # Dev branch
+            "main",
+            connection_arn="arn:aws:codeconnections:us-east-1:087260250299:connection/c91a69b3-2909-465c-b312-e04db094a023"
         )
 
         pipeline = pipelines.CodePipeline(
@@ -20,6 +22,7 @@ class DevPipelineStack(Stack):
             synth=pipelines.ShellStep("Synth",
                 input=source,
                 commands=[
+                    "npm install -g aws-cdk",
                     "pip install -r requirements.txt",
                     "cdk synth"
                 ]
@@ -29,7 +32,7 @@ class DevPipelineStack(Stack):
         dev_stage = DevStage(self, "DevDeploy")
         pipeline.add_stage(dev_stage)
 
-class DevStage(pipelines.Stage):
+class DevStage(Stage):
     def __init__(self, scope: Construct, construct_id: str, **kwargs):
         super().__init__(scope, construct_id, **kwargs)
         
