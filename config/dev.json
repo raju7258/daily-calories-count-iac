@@ -1,7 +1,7 @@
 {
   "environment": "dev",
   "resources": {
-    "s3_bucket_name": "calories-count-web-dev-1234",
+    "s3_bucket_name": "calories-count-web-dev-12345",
     "stack_name": "CaloriesCount-Dev"
   },
   "tags": {

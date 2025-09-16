@@ -3,7 +3,24 @@
   "WebBucket12880F5B": {
    "Type": "AWS::S3::Bucket",
    "Properties": {
-    "BucketName": "calories-count-web-dev",
+    "BucketName": "calories-count-web-dev-1234",
+    "CorsConfiguration": {
+     "CorsRules": [
+      {
+       "AllowedHeaders": [
+        "*"
+       ],
+       "AllowedMethods": [
+        "GET",
+        "HEAD"
+       ],
+       "AllowedOrigins": [
+        "*"
+       ],
+       "MaxAge": 3600
+      }
+     ]
+    },
     "Tags": [
      {
       "Key": "aws-cdk:auto-delete-objects",
@@ -21,7 +38,11 @@
       "Key": "Project",
       "Value": "DailyCaloriesCount"
      }
-    ]
+    ],
+    "WebsiteConfiguration": {
+     "ErrorDocument": "index.html",
+     "IndexDocument": "index.html"
+    }
    },
    "UpdateReplacePolicy": "Delete",
    "DeletionPolicy": "Delete",
@@ -175,7 +196,7 @@
   "CDKMetadata": {
    "Type": "AWS::CDK::Metadata",
    "Properties": {
-    "Analytics": "v2:deflate64:H4sIAAAAAAAA/12PywrCMBBFv8UsJY1SQdSd1bUtuhSRNB019hHJTJRS+u/GBkFcXbj3zIGJRTxdiOlIvjBSRRlVOhfdgaQqua/OOBNd4lQJdOyYdGS2UAFBmt9BEbIVWQec5QOxkzWwFRszzizU5imrzFRatb4rAMmalvUnvrk0QchDBMbbg2QQ/GJh7/nGIZl6D2icVXD01AB9i789s+apC7CJROBrRCD/01U3189N6ujhqOdZSzfTTGZiKeajO2odWdeQrkHsQ74B2YKzCx0BAAA="
+    "Analytics": "v2:deflate64:H4sIAAAAAAAA/7VRS08CMRD+LfRISiWQGOW2PCIeFILeCCHddsRCd2vaKY+Q/e/O0l0TvXua5HtMv286EIP+g+h35Cn0lD70rMnF9Q2lOnCCtmEoruOoDoDrK5MR3RQsICzyPSgMbIQ+Amf5TfEqC2Aj1mWcKeeJrC3WuhPoF8BPp2uIPc3eSTCfZVO24S2/8GZnytC4G3AOUoNvwUKes13aX5HRQ+GO0i6dNepCqIaA3l1IeII8GISZ985PnYoFlNjsaKjnUsP5F1Vxiqr1hGKvooV/jM5vSJdtqMTko0y35WmkMvR0umfb9UeW+IpPYkBXrCC46BWs6221qAX+8EvvjobSjGUAnoUASN9LkXe1ZxHxK2LFlxdqWd4NxaO47+yDMT0fSzQFiFWa309xuLsoAgAA"
    },
    "Metadata": {
     "aws:cdk:path": "CaloriesCount-Dev-Pipeline/DevDeploy/CaloriesCount-Dev/CDKMetadata/Default"
@@ -187,6 +208,14 @@
   "BucketNamedev": {
    "Value": {
     "Ref": "WebBucket12880F5B"
+   }
+  },
+  "WebsiteURLdev": {
+   "Value": {
+    "Fn::GetAtt": [
+     "WebBucket12880F5B",
+     "WebsiteURL"
+    ]
    }
   }
  },
