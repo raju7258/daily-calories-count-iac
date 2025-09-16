@@ -12,7 +12,7 @@ class DevPipelineStack(Stack):
 
         source = pipelines.CodePipelineSource.connection(
             "raju7258/daily-calories-count-iac",
-            "main",
+            "dev",
             connection_arn="arn:aws:codeconnections:us-east-1:087260250299:connection/c91a69b3-2909-465c-b312-e04db094a023"
         )
 
